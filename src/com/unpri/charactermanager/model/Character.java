@@ -8,6 +8,8 @@ package com.unpri.charactermanager.model;
 public class Character {
 
     // ===== ATRIBUT PRIVATE =====
+    private static int totalCharacterCreated = 0;
+
     private int id;
     private String name;
     private CharacterType type;
@@ -30,6 +32,8 @@ public class Character {
         this.hitPoints = calculateBaseHP();
         this.attackPower = calculateBaseAttack();
         this.mana = 0;
+
+        totalCharacterCreated++;
     }
 
     // ===== CONSTRUCTOR 2 =====
@@ -42,6 +46,8 @@ public class Character {
         this.hitPoints = hitPoints;
         this.attackPower = attackPower;
         this.mana = 0;
+
+        totalCharacterCreated++;
     }
 
     // ===== HELPER PRIVATE =====
@@ -80,6 +86,11 @@ public class Character {
 
     public int getMana() {
         return mana;
+    }
+
+    // ===== GETTER STATIC =====
+    public static int getTotalCharacterCreated() {
+        return totalCharacterCreated;
     }
 
     // ===== SETTER =====
