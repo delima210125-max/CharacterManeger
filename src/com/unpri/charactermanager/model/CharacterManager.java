@@ -110,4 +110,26 @@ public class CharacterManager {
 
         return result;
     }
+
+    /**
+     * Mencari karakter dengan attack power tertinggi.
+     *
+     * @return karakter dengan attack power tertinggi,
+     *         atau null jika daftar karakter kosong.
+     */
+    public Character findStrongest() {
+        if (characterList.isEmpty()) {
+            return null;
+        }
+
+        Character strongest = characterList.get(0);
+
+        for (Character c : characterList) {
+            if (c.getAttackPower() > strongest.getAttackPower()) {
+                strongest = c;
+            }
+        }
+
+        return strongest;
+    }
 }
