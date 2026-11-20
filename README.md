@@ -58,7 +58,7 @@ CharacterManeger/
 
 ## Screenshot Hasil Program
 
-![Screenshot AP3 Sprint 1](Screenshot/Screenshot_AP3_Sprint1.png)
+![Screenshot AP3 Sprint 1](screenshot/Screenshot_AP3_Sprint1.png)
 
 ---
 
@@ -72,10 +72,8 @@ CharacterManeger/
 
 ---
 
-## Google Docs - Analisis Tugas
+## Google Docs
 
-Dokumen analisis lengkap Character Manager Sprint #1 dapat dilihat melalui link berikut:
-
-📄 [Analisis AP3 Sprint #1 - Putri Delimayanti](https://docs.google.com/document/d/1sMcuGFXTfInupO2VkzyzNcitwLG_WbOjvqvMDk-RiYw/edit?usp=sharing)
+https://docs.google.com/document/d/1sMcuGFXTfInupO2VkzyzNcitwLG_WbOjvqvMDk-RiYw/edit?usp=sharing
 
 
