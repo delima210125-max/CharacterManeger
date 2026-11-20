@@ -1,8 +1,11 @@
 
+package com.unpri.charactermanager;
+
 import com.unpri.charactermanager.model.Character;
 import com.unpri.charactermanager.model.CharacterType;
 
 public class Main {
+
     public static void main(String[] args) {
 
         System.out.println("=== Character Manager v0.1 ===");
@@ -17,28 +20,27 @@ public class Main {
         System.out.println(wizard);
         System.out.println(scout);
 
+        // Menguji level up
         System.out.println();
         System.out.println(">> " + hero.getName() + " level up!");
         hero.setLevel(hero.getLevel() + 1);
         System.out.println("After level up: " + hero);
 
+        // Menguji getter
         System.out.println();
         System.out.println(">> Nama karakter: " + hero.getName());
         System.out.println(">> Jenis karakter: " + hero.getType());
         System.out.println(">> HP saat ini: " + hero.getHitPoints());
 
-        // ===== MINI-CHALLENGE AP3 =====
-
+        // MINI-CHALLENGE AP3
         System.out.println();
         System.out.println("=== MINI-CHALLENGE AP3 ===");
 
-        // Mengatur mana karakter
+        // Menguji mana
         hero.setMana(100);
-
-        // Menguji getter mana
         System.out.println(">> Mana Arjuna: " + hero.getMana());
 
-        // Menguji method isAlive()
+        // Menguji isAlive()
         System.out.println(">> Apakah Arjuna masih hidup? " + hero.isAlive());
 
         // Menguji validasi mana negatif
@@ -48,7 +50,7 @@ public class Main {
             System.out.println(">> Validasi mana: " + e.getMessage());
         }
 
-        // Membuat satu karakter baru untuk pengujian
+        // Membuat karakter baru
         Character newHero = new Character(
             "Thor",
             CharacterType.WARRIOR,

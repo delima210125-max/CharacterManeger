@@ -3,8 +3,7 @@ package com.unpri.charactermanager.model;
 
 /**
  * Merepresentasikan satu karakter dalam aplikasi Character Manager.
- * Menerapkan prinsip Encapsulation: semua atribut private,
- * akses hanya melalui getter/setter.
+ * Menerapkan prinsip Encapsulation.
  */
 public class Character {
 
@@ -15,10 +14,16 @@ public class Character {
     private int level;
     private int hitPoints;
     private int attackPower;
-    private int mana; // ATRIBUT BARU AP3
+    private int mana;
 
-    // ===== CONSTRUCTOR 1: MEMBUAT KARAKTER BARU =====
+    // ===== CONSTRUCTOR 1 =====
     public Character(String name, CharacterType type, int level) {
+        if (level < 1) {
+            throw new IllegalArgumentException(
+                "Level minimal adalah 1"
+            );
+        }
+
         this.name = name;
         this.type = type;
         this.level = level;
@@ -27,7 +32,7 @@ public class Character {
         this.mana = 0;
     }
 
-    // ===== CONSTRUCTOR 2: MEMUAT KARAKTER DARI DATABASE =====
+    // ===== CONSTRUCTOR 2 =====
     public Character(int id, String name, CharacterType type,
                      int level, int hitPoints, int attackPower) {
         this.id = id;
@@ -73,7 +78,6 @@ public class Character {
         return attackPower;
     }
 
-    // GETTER MANA BARU
     public int getMana() {
         return mana;
     }
@@ -81,6 +85,14 @@ public class Character {
     // ===== SETTER =====
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(CharacterType type) {
+        this.type = type;
     }
 
     public void setLevel(int level) {
@@ -95,7 +107,14 @@ public class Character {
         this.attackPower = calculateBaseAttack();
     }
 
-    // SETTER MANA BARU DENGAN VALIDASI
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public void setAttackPower(int attackPower) {
+        this.attackPower = attackPower;
+    }
+
     public void setMana(int mana) {
         if (mana < 0) {
             throw new IllegalArgumentException(
@@ -106,7 +125,7 @@ public class Character {
         this.mana = mana;
     }
 
-    // ===== METHOD ISALIVE BARU =====
+    // ===== METHOD IS ALIVE =====
     public boolean isAlive() {
         return hitPoints > 0;
     }
