@@ -3,64 +3,103 @@ package com.unpri.charactermanager;
 
 import com.unpri.charactermanager.model.Character;
 import com.unpri.charactermanager.model.CharacterType;
+import com.unpri.charactermanager.model.CharacterManager;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Character Manager v0.1 ===");
+        System.out.println("=== Character Manager v0.2 — CRUD Test ===\n");
 
-        // Membuat 3 object Character
-        Character hero = new Character("Arjuna", CharacterType.WARRIOR, 5);
-        Character wizard = new Character("Merlin", CharacterType.MAGE, 3);
-        Character scout = new Character("Athena", CharacterType.ARCHER, 4);
+        CharacterManager manager = new CharacterManager();
 
-        // Menampilkan ketiga karakter
-        System.out.println(hero);
-        System.out.println(wizard);
-        System.out.println(scout);
+        // ===== MENAMBAHKAN KARAKTER =====
+        manager.addCharacter(new Character("Arjuna", CharacterType.WARRIOR, 5));
+        manager.addCharacter(new Character("Merlin", CharacterType.MAGE, 3));
+        manager.addCharacter(new Character("Athena", CharacterType.ARCHER, 4));
 
-        // Menguji level up
+        // ===== MENGUJI KARAKTER DUPLIKAT =====
         System.out.println();
-        System.out.println(">> " + hero.getName() + " level up!");
-        hero.setLevel(hero.getLevel() + 1);
-        System.out.println("After level up: " + hero);
+        manager.addCharacter(new Character("Arjuna", CharacterType.HEALER, 1));
 
-        // Menguji getter
-        System.out.println();
-        System.out.println(">> Nama karakter: " + hero.getName());
-        System.out.println(">> Jenis karakter: " + hero.getType());
-        System.out.println(">> HP saat ini: " + hero.getHitPoints());
+        // ===== MENGHITUNG TOTAL =====
+        System.out.println("\nTotal karakter saat ini: "
+                + manager.getTotalCharacters());
 
-        // MINI-CHALLENGE AP3
-        System.out.println();
-        System.out.println("=== MINI-CHALLENGE AP3 ===");
+        // ===== PENCARIAN =====
+        System.out.println("\n--- Pencarian ---");
 
-        // Menguji mana
-        hero.setMana(100);
-        System.out.println(">> Mana Arjuna: " + hero.getMana());
+        Character hasil = manager.findByName("Merlin");
 
-        // Menguji isAlive()
-        System.out.println(">> Apakah Arjuna masih hidup? " + hero.isAlive());
-
-        // Menguji validasi mana negatif
-        try {
-            hero.setMana(-10);
-        } catch (IllegalArgumentException e) {
-            System.out.println(">> Validasi mana: " + e.getMessage());
-        }
-
-        // Membuat karakter baru
-        Character newHero = new Character(
-            "Thor",
-            CharacterType.WARRIOR,
-            6
+        System.out.println(
+            hasil != null ? "Ditemukan: " + hasil : "Tidak ditemukan"
         );
 
-        newHero.setMana(150);
+        Character tidakAda = manager.findByName("Zeus");
 
-        System.out.println();
-        System.out.println(">> Karakter baru: " + newHero);
-        System.out.println(">> Apakah Thor masih hidup? " + newHero.isAlive());
+        System.out.println(
+            tidakAda != null
+                ? "Ditemukan: " + tidakAda
+                : "Zeus tidak ditemukan (sesuai harapan)"
+        );
+
+        // ===== PENGHAPUSAN =====
+        System.out.println("\n--- Penghapusan ---");
+
+        manager.removeCharacter("Athena");
+
+        System.out.println("Total setelah hapus: "
+                + manager.getTotalCharacters());
+
+        // ===== DAFTAR KARAKTER TERSISA =====
+        System.out.println("\n--- Daftar Karakter Tersisa ---");
+
+        for (Character c : manager.getAllCharacters()) {
+            System.out.println(c);
+        }
+
+        // ===== MINI CHALLENGE: RATA-RATA LEVEL =====
+        System.out.println("\n--- Mini Challenge ---");
+
+        System.out.println("Rata-rata level: "
+                + manager.getAverageLevel());
+
+        // ===== MINI CHALLENGE: CARI BERDASARKAN TIPE =====
+        System.out.println("\nKarakter bertipe WARRIOR:");
+
+        for (Character c : manager.findByType(CharacterType.WARRIOR)) {
+            System.out.println(c);
+        }
+
+        // ===== EKSPERIMEN REFERENCE =====
+        System.out.println("\n--- Eksperimen Reference ---");
+
+        Character asli = manager.findByName("Arjuna");
+        Character duplikatReferensi = asli;
+
+        System.out.println("Level Arjuna sebelum: "
+                + asli.getLevel());
+
+        duplikatReferensi.setLevel(99);
+
+        System.out.println("Level Arjuna sesudah (lewat 'asli'): "
+                + asli.getLevel());
+
+        System.out.println("asli == duplikatReferensi? "
+                + (asli == duplikatReferensi));
+
+        // ===== MENGUJI DEFENSIVE COPY =====
+        java.util.ArrayList<Character> salinanList =
+                manager.getAllCharacters();
+
+        salinanList.add(
+            new Character("Hantu", CharacterType.MAGE, 1)
+        );
+
+        System.out.println("Total di manager asli: "
+                + manager.getTotalCharacters());
+
+        System.out.println("Total di salinan list: "
+                + salinanList.size());
     }
 }

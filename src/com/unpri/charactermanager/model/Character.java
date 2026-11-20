@@ -141,4 +141,15 @@ public class Character {
                ", atk=" + attackPower +
                ", mana=" + mana + '}';
     }
+
+    // ===== EQUALS: MEMBANDINGKAN ISI DATA =====
+    // Dua Character dianggap sama jika namanya identik.
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Character)) return false;
+
+        Character other = (Character) obj;
+        return this.name.equals(other.name);
+    }
 }
