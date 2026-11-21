@@ -59,15 +59,7 @@ Menampilkan Average Level, Find By Type, Find Strongest, eksperimen Reference, D
 - **Defensive Copy:** Mengembalikan salinan ArrayList agar daftar asli terlindungi.
 - **ArrayList:** Mengelola kumpulan objek karakter.
 
-## 5. Google Docs Analysis
-
-Dokumen analisis membahas konsep object reference, primitive value, static variable, equals(), dan defensive copy berdasarkan implementasi program.
-
-**Judul Dokumen:** `JavaVisual_TP05_[NIM]_[Nama]`
-
-**Link Google Docs:** Akan ditambahkan setelah dokumen selesai dibuat.
-
-## 6. Struktur Project
+## 5. Struktur Project
 
 ```text
 CharacterManeger/
@@ -88,7 +80,7 @@ CharacterManeger/
 └── README.md
 ```
 
-## 7. Cara Menjalankan Program
+## 6. Cara Menjalankan Program
 
 Kompilasi program:
 
@@ -102,7 +94,7 @@ Jalankan program:
 java -cp out com.unpri.charactermanager.Main
 ```
 
-## 8. Repository
+## 7. Repository
 
 Project ini merupakan pengembangan dari tugas Character Manager TP3 dan dikerjakan pada branch `tp5-sprint-2`.
 
