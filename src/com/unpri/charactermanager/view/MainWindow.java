@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,7 +32,7 @@ public class MainWindow extends JFrame {
     private void initComponents() {
         mainPanel = new JPanel(new GridLayout(0, 1, 0, 8));
         mainPanel.setBackground(AppTheme.BG_MAIN);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+        mainPanel.setBorder(AppTheme.PANEL_BORDER);
 
         mainPanel.add(createTitleLabel());
 
@@ -46,15 +45,20 @@ public class MainWindow extends JFrame {
 
     /** Membuat judul layar. */
     private JLabel createTitleLabel() {
-        JLabel lbl = new JLabel("Daftar Karakter (" + characterList.size() + ")",
-                                SwingConstants.CENTER);
+        JLabel lbl = new JLabel(
+            "Daftar Karakter (" + characterList.size() + ")",
+            SwingConstants.CENTER
+        );
+
         lbl.setFont(AppTheme.FONT_TITLE);
         lbl.setForeground(AppTheme.TEXT_MAIN);
+
         return lbl;
     }
 
-    /** Membuat satu kartu karakter (JLabel berwarna sesuai role). */
+    /** Membuat satu kartu karakter sesuai role. */
     private JLabel createCharacterLabel(Character c) {
+
         String info = c.getName() + " | " + c.getType()
                     + " | Lv." + c.getLevel()
                     + " | HP:" + c.getHitPoints()
@@ -74,8 +78,26 @@ public class MainWindow extends JFrame {
         lbl.setBackground(AppTheme.colorFor(c.getType()));
         lbl.setOpaque(true);
         lbl.setBorder(AppTheme.CARD_BORDER);
-        lbl.setToolTipText(AppTheme.describe(c.getType()));
-        lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // Properti tambahan 1: tooltip detail karakter
+        lbl.setToolTipText(
+            "<html>"
+            + AppTheme.describe(c.getType())
+            + "<br>Nama: " + c.getName()
+            + "<br>Level: " + c.getLevel()
+            + "<br>HP: " + c.getHitPoints()
+            + "<br>ATK: " + c.getAttackPower()
+            + "</html>"
+        );
+
+        // Properti tambahan 2: karakter level 1 dibuat nonaktif
+        if (c.getLevel() == 1) {
+            lbl.setEnabled(false);
+        }
+
+        lbl.setCursor(
+            Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+        );
 
         return lbl;
     }
