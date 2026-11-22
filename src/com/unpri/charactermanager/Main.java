@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 public class Main {
     public static void main(String[] args) {
 
-        // 1. Siapkan DATA terlebih dahulu (layer Model)
+        // 1. Siapkan DATA karakter (layer Model)
         CharacterManager manager = new CharacterManager();
 
         manager.addCharacter(new Character("Arjuna", CharacterType.WARRIOR, 5));
@@ -18,6 +18,7 @@ public class Main {
         manager.addCharacter(new Character("Athena", CharacterType.ARCHER, 4));
         manager.addCharacter(new Character("Gatotkaca", CharacterType.WARRIOR, 7));
         manager.addCharacter(new Character("Morgana", CharacterType.MAGE, 1));
+        manager.addCharacter(new Character("Robin", CharacterType.ARCHER, 6));
 
         // 2. Jalankan GUI dengan aman di Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
