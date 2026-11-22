@@ -1,89 +1,82 @@
 
 package com.unpri.charactermanager.view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.BoxLayout;
-import javax.swing.Box;
-import javax.swing.BorderFactory;
-import java.awt.Component;
-import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import com.unpri.charactermanager.model.Character;
 
-/**
- * Jendela utama aplikasi Character Manager.
- * Menampilkan daftar karakter yang diterima dari luar.
- */
 public class MainWindow extends JFrame {
 
     private JPanel mainPanel;
     private ArrayList<Character> characterList;
-    private double averageLevel;
 
-    public MainWindow(ArrayList<Character> characterList, double averageLevel) {
-        super("Character Manager v0.3");
+    public MainWindow(ArrayList<Character> characterList) {
+        super("Character Manager v0.4");
         this.characterList = characterList;
-        this.averageLevel = averageLevel;
 
         initComponents();
 
-        setSize(500, 400);
+        pack();
+        setMinimumSize(new Dimension(420, 300));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
     private void initComponents() {
+        mainPanel = new JPanel(new GridLayout(0, 1, 0, 8));
+        mainPanel.setBackground(AppTheme.BG_MAIN);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
-        // Panel utama
-        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(createTitleLabel());
 
-        // Judul daftar karakter di tengah
-        JLabel titleLabel = new JLabel(
-            "=== Daftar Karakter (" + characterList.size() + ") ===",
-            JLabel.CENTER
-        );
-
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
-
-        // Panel daftar karakter
-        JPanel listPanel = new JPanel();
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-
-        // Menampilkan karakter secara dinamis
         for (Character c : characterList) {
-
-            String info = c.getName() + " | " + c.getType() +
-                          " | Lv." + c.getLevel() +
-                          " | HP:" + c.getHitPoints() +
-                          " | ATK:" + c.getAttackPower();
-
-            JLabel characterLabel = new JLabel(info);
-            characterLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-            listPanel.add(characterLabel);
-            listPanel.add(Box.createVerticalStrut(10));
+            mainPanel.add(createCharacterLabel(c));
         }
 
-        mainPanel.add(listPanel, BorderLayout.CENTER);
-
-        // Statistik rata-rata level
-        JLabel averageLabel = new JLabel(
-            "Rata-rata Level: " + String.format("%.1f", averageLevel),
-            JLabel.CENTER
-        );
-
-        averageLabel.setBorder(
-            BorderFactory.createEmptyBorder(12, 0, 12, 0)
-        );
-
-        // Panel statistik di bawah daftar
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(averageLabel, BorderLayout.NORTH);
-
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
         add(mainPanel);
+    }
+
+    /** Membuat judul layar. */
+    private JLabel createTitleLabel() {
+        JLabel lbl = new JLabel("Daftar Karakter (" + characterList.size() + ")",
+                                SwingConstants.CENTER);
+        lbl.setFont(AppTheme.FONT_TITLE);
+        lbl.setForeground(AppTheme.TEXT_MAIN);
+        return lbl;
+    }
+
+    /** Membuat satu kartu karakter (JLabel berwarna sesuai role). */
+    private JLabel createCharacterLabel(Character c) {
+        String info = c.getName() + " | " + c.getType()
+                    + " | Lv." + c.getLevel()
+                    + " | HP:" + c.getHitPoints()
+                    + " | ATK:" + c.getAttackPower();
+
+        JLabel lbl = new JLabel(info);
+        lbl.setFont(AppTheme.FONT_BODY);
+
+        // Mini-Challenge: level 5 ke atas berwarna emas dan tebal
+        if (c.getLevel() >= AppTheme.HIGH_LEVEL_THRESHOLD) {
+            lbl.setForeground(AppTheme.GOLD);
+            lbl.setFont(AppTheme.FONT_BODY.deriveFont(Font.BOLD));
+        } else {
+            lbl.setForeground(AppTheme.TEXT_LIGHT);
+        }
+
+        lbl.setBackground(AppTheme.colorFor(c.getType()));
+        lbl.setOpaque(true);
+        lbl.setBorder(AppTheme.CARD_BORDER);
+        lbl.setToolTipText(AppTheme.describe(c.getType()));
+        lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        return lbl;
     }
 }
