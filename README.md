@@ -8,17 +8,9 @@ Character Manager merupakan aplikasi berbasis Java yang dikembangkan menggunakan
 ### 2. Screenshot Aplikasi
 
 **A. Sebelum Penambahan Karakter (3 Karakter)**
-
-![Screenshot Sebelum - 3 Karakter](screenshot/Screenshot_AP10_Sebelum.png)
-
-**B. Sesudah Penambahan Karakter (5 Karakter)**
-
-![Screenshot Sesudah - 5 Karakter](screenshot/Screenshot_AP10_Sesudah.png)
+[Screenshot Sebelum - 3 Karakter](screenshot/Screenshot_AP10_Sebelum.png)
 
 **B. Sesudah Penambahan Karakter (5 Karakter)**
-
-Alamat file:
-`screenshot/Screenshot_AP10_Sesudah.png`
 
 ![Screenshot Sesudah - 5 Karakter](screenshot/Screenshot_AP10_Sesudah.png)
 
