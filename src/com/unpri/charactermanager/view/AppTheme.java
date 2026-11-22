@@ -19,6 +19,13 @@ public final class AppTheme {
     public static final Color TEXT_LIGHT = Color.WHITE;
     public static final Color GOLD = Color.decode("#fdcb6e");
 
+    // ---------- Warna tambahan TP12 ----------
+    public static final Color BG_STATUS = Color.decode("#0d0d1a");
+    public static final Color TEXT_MUTED = Color.decode("#9d9dbf");
+
+    // ---------- Versi aplikasi ----------
+    public static final String APP_VERSION = "v0.5";
+
     // ---------- Batas level tinggi ----------
     public static final int HIGH_LEVEL_THRESHOLD = 5;
 
