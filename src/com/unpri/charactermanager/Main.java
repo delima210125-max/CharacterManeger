@@ -12,9 +12,14 @@ public class Main {
 
         // 1. Siapkan DATA terlebih dahulu (layer Model)
         CharacterManager manager = new CharacterManager();
+
         manager.addCharacter(new Character("Arjuna", CharacterType.WARRIOR, 5));
         manager.addCharacter(new Character("Merlin", CharacterType.MAGE, 3));
         manager.addCharacter(new Character("Athena", CharacterType.ARCHER, 4));
+
+        // 2 karakter baru untuk Sprint #3
+        //manager.addCharacter(new Character("Srikandi", CharacterType.ARCHER, 6));
+        //manager.addCharacter(new Character("Bima", CharacterType.WARRIOR, 7));
 
         // 2. Jalankan GUI dengan aman di Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {

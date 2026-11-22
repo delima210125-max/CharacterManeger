@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
+import javax.swing.BorderFactory;
 import java.awt.Component;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import com.unpri.charactermanager.model.Character;
 
 /**
  * Jendela utama aplikasi Character Manager.
- * Menampilkan daftar karakter yang diterima dari luar (bukan dibuat sendiri).
+ * Menampilkan daftar karakter yang diterima dari luar.
  */
 public class MainWindow extends JFrame {
 
@@ -28,7 +29,7 @@ public class MainWindow extends JFrame {
 
         initComponents();
 
-        setSize(500, 450);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
@@ -38,18 +39,19 @@ public class MainWindow extends JFrame {
         // Panel utama
         mainPanel = new JPanel(new BorderLayout());
 
-        // Judul Daftar Karakter tepat di tengah
+        // Judul daftar karakter di tengah
         JLabel titleLabel = new JLabel(
             "=== Daftar Karakter (" + characterList.size() + ") ===",
             JLabel.CENTER
         );
+
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Panel daftar karakter tersusun ke bawah
+        // Panel daftar karakter
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
-        // Menampilkan setiap karakter dari CharacterManager
+        // Menampilkan karakter secara dinamis
         for (Character c : characterList) {
 
             String info = c.getName() + " | " + c.getType() +
@@ -66,12 +68,21 @@ public class MainWindow extends JFrame {
 
         mainPanel.add(listPanel, BorderLayout.CENTER);
 
-        // Mini-Challenge: menampilkan rata-rata level karakter
+        // Statistik rata-rata level
         JLabel averageLabel = new JLabel(
-            "Rata-rata Level: " + String.format("%.1f", averageLevel)
+            "Rata-rata Level: " + String.format("%.1f", averageLevel),
+            JLabel.CENTER
         );
 
-        mainPanel.add(averageLabel, BorderLayout.SOUTH);
+        averageLabel.setBorder(
+            BorderFactory.createEmptyBorder(12, 0, 12, 0)
+        );
+
+        // Panel statistik di bawah daftar
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(averageLabel, BorderLayout.NORTH);
+
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
     }

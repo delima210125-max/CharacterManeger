@@ -1,108 +1,44 @@
-# CHARACTER MANAGER – TP5 SPRINT #2
+# CHARACTER MANAGER – TP8
+## Sprint #3: MainWindow, Data Dinamis & Analisis MVC
 
-**Mata Kuliah:** Java Visual Programming  
-**Program Studi:** Sistem Informasi  
-**Tugas:** TP5 – AP6 Belajar Praktik  
-**Sprint:** Sprint #2  
-**Bahasa Pemrograman:** Java
+### 1. Deskripsi Project
 
----
+Character Manager merupakan aplikasi berbasis Java yang dikembangkan menggunakan Java Swing. Aplikasi ini digunakan untuk menampilkan daftar karakter secara dinamis melalui Graphical User Interface (GUI). Pada TP8, aplikasi dikembangkan dengan menerapkan konsep Event-Driven Programming dan prinsip MVC (Model-View-Controller).
 
-## 1. Deskripsi Project
+### 2. Screenshot Aplikasi
 
-Character Manager merupakan aplikasi sederhana berbasis Java yang digunakan untuk mengelola data karakter. Pada TP5 Sprint #2, aplikasi dikembangkan dengan menerapkan konsep Object-Oriented Programming (OOP), pengelolaan koleksi menggunakan ArrayList, serta pengujian object reference dan defensive copy.
+**A. Sebelum Penambahan Karakter (3 Karakter)**
 
-## 2. Fitur yang Diimplementasikan
+![Screenshot Sebelum - 3 Karakter](screenshot/Screenshot_AP10_Sebelum.png)
 
-### A. Core Implementation
+**B. Sesudah Penambahan Karakter (5 Karakter)**
 
-- `addCharacter()` – Menambahkan karakter baru.
-- `findByName()` – Mencari karakter berdasarkan nama.
-- `removeCharacter()` – Menghapus karakter berdasarkan nama.
-- `getTotalCharacters()` – Menghitung jumlah karakter.
-- `getAllCharacters()` – Mengembalikan salinan daftar karakter.
-- `equals()` – Membandingkan dua karakter berdasarkan nama.
-- Mencegah penambahan karakter dengan nama duplikat.
+![Screenshot Sesudah - 5 Karakter](screenshot/Screenshot_AP10_Sesudah.png)
 
-### B. Mini Challenge
+**B. Sesudah Penambahan Karakter (5 Karakter)**
 
-- `getAverageLevel()` – Menghitung rata-rata level seluruh karakter.
-- `findByType()` – Mencari karakter berdasarkan tipe karakter.
-- Menguji kondisi daftar kosong.
+Alamat file:
+`screenshot/Screenshot_AP10_Sesudah.png`
 
-### C. Fitur Analitik Tambahan: Find Strongest
+![Screenshot Sesudah - 5 Karakter](screenshot/Screenshot_AP10_Sesudah.png)
 
-Method `findStrongest()` digunakan untuk mencari karakter dengan nilai Attack Power tertinggi.
+### 3. Alur Data dan Penerapan MVC
 
-Fitur ini membantu mengetahui karakter yang memiliki kekuatan serangan paling besar. Method juga menangani kondisi ketika daftar karakter masih kosong dengan mengembalikan `null`.
+Pada aplikasi ini, `Main.java` berfungsi sebagai titik awal program yang membuat objek `CharacterManager` dan menambahkan data karakter. `CharacterManager` berperan sebagai bagian Model yang mengelola data karakter serta menghitung rata-rata level. Selanjutnya, data karakter dan hasil perhitungan rata-rata diberikan kepada `MainWindow.java` untuk ditampilkan melalui komponen JLabel. Pemisahan pengelolaan data dan tampilan ini membantu menerapkan prinsip MVC sehingga program lebih terstruktur dan mudah dikembangkan.
 
-## 3. Screenshot Hasil Program
+### 4. Karakter Baru
 
-### Screenshot 1 – CRUD dan Pengujian Duplikat
+Pada TP8, terdapat dua karakter baru yang ditambahkan:
 
-Menampilkan proses penambahan karakter, pengujian nama duplikat, pencarian, penghapusan, dan daftar karakter.
+| Nama Karakter | Tipe | Level | Alasan Pemilihan |
+|---|---|---:|---|
+| Srikandi | ARCHER | 6 | Dipilih sebagai karakter pemanah yang memiliki kemampuan menyerang dari jarak jauh. |
+| Bima | WARRIOR | 7 | Dipilih sebagai karakter petarung yang memiliki kekuatan dan kemampuan bertahan. |
 
-[Klik untuk membuka Screenshot 1](screenshot/Screenshot_TP5_Sprint2_1.png)
+### 5. Analisis GUI dan MVC
 
-### Screenshot 2 – Analitik dan Pengujian Reference
+https://docs.google.com/document/d/1C5xtZOWdQmej3NW3K-TW6Vq1Yfk8pEGkuPadXgzA4cA/edit?usp=sharing
 
-Menampilkan Average Level, Find By Type, Find Strongest, eksperimen Reference, Defensive Copy, dan pengujian daftar kosong.
+### 6. Kesimpulan
 
-[Klik untuk membuka Screenshot 2](screenshot/Screenshot_TP5_Sprint2_2.png)
-
-## 4. Konsep OOP yang Diterapkan
-
-- **Encapsulation:** Melindungi atribut menggunakan access modifier `private`.
-- **Composition:** CharacterManager mengelola koleksi objek Character.
-- **Method Overriding:** Menggunakan `equals()` untuk membandingkan nama karakter.
-- **Object Reference:** Menguji dua variabel yang menunjuk ke objek yang sama.
-- **Defensive Copy:** Mengembalikan salinan ArrayList agar daftar asli terlindungi.
-- **ArrayList:** Mengelola kumpulan objek karakter.
-
-## 5. Struktur Project
-
-```text
-CharacterManeger/
-├── out/
-├── screenshot/
-│   ├── Screenshot_AP3_Sprint1.png
-│   ├── Screenshot_TP5_Sprint2_1.png
-│   └── Screenshot_TP5_Sprint2_2.png
-├── src/
-│   └── com/
-│       └── unpri/
-│           └── charactermanager/
-│               ├── Main.java
-│               └── model/
-│                   ├── Character.java
-│                   ├── CharacterType.java
-│                   └── CharacterManager.java
-└── README.md
-```
-
-## 6. Cara Menjalankan Program
-
-Kompilasi program:
-
-```bash
-javac -d out -sourcepath src src/com/unpri/charactermanager/Main.java
-```
-
-Jalankan program:
-
-```bash
-java -cp out com.unpri.charactermanager.Main
-```
-
-## 7. Repository
-
-Project ini merupakan pengembangan dari tugas Character Manager TP3 dan dikerjakan pada branch `tp5-sprint-2`.
-
----
-
-**Link Google Docs:** 
-https://docs.google.com/document/d/1Ux9z_F6mrDsduHniWHxQtSokHULi_0DzKLYnwsLWgfw/edit?usp=sharing
-
-**TP5 Sprint #2 – Character Manager**  
-Universitas Prima Indonesia (UNPRI)  
-Program Studi Sistem Informasi
+Melalui TP8, aplikasi Character Manager berhasil dikembangkan menggunakan Java Swing. Aplikasi dapat menampilkan data karakter secara dinamis dan menghitung rata-rata level secara otomatis. Praktik ini memberikan pemahaman mengenai GUI, Event-Driven Programming, penggunaan SwingUtilities.invokeLater(), serta penerapan prinsip MVC dalam pengembangan aplikasi Java.
