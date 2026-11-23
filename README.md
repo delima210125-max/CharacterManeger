@@ -1,132 +1,89 @@
+# Java Visual TP14 – AP19
+## Character Manager Sprint #6: Form Input, Validasi & Analisis MVC
 
-# JavaVisual TP12 - AP16
-## Character Manager Sprint #5
-### Layout, UI Responsif & Analisis MVC
+## Identitas
 
-**Nama:** Putri DelimaYanti Sumbayak  
-**NIM:** 253303621223 
-**Kelas:** 3 Pagi A  
-**Mata Kuliah:** Java Visual  
-**Tugas:** TP12 Tugas 
-
----
-
-## Deskripsi Project
-
-Character Manager Sprint #5 merupakan pengembangan aplikasi berbasis Java Swing yang berfokus pada penerapan Layout Manager, tampilan UI responsif, dan analisis konsep MVC.
-
-Pada sprint ini, aplikasi menggunakan BorderLayout sebagai layout utama dengan empat wilayah, yaitu NORTH, CENTER, EAST, dan SOUTH. Daftar karakter ditampilkan menggunakan JScrollPane agar pengguna dapat menggulir daftar ketika ukuran jendela terbatas.
-
-Aplikasi juga menggunakan GridLayout 2×2 untuk panel tambahan, BoxLayout untuk legenda role, serta status bar yang menampilkan jumlah karakter dan versi aplikasi.
+- **Nama:** Putri Delimayanti Sumbayak
+- **NIM:** 253303621223
+- **Program Studi:** Sistem Informasi
+- **Mata Kuliah:** Java Visual (SIH-6406)
+- **Tugas:** TP14 – AP19
+- **Sprint:** Sprint #6
 
 ---
 
-## Teknologi yang Digunakan
+## 1. Deskripsi Tugas
 
-- Java
-- Java Swing
-- BorderLayout
-- GridLayout
-- BoxLayout
-- JScrollPane
-- Visual Studio Code
+TP14 merupakan pengembangan aplikasi Character Manager pada Sprint #6. Pengembangan ini berfokus pada pembuatan form input karakter, validasi data, serta penerapan prinsip Model-View-Controller (MVC).
 
----
+Pengguna dapat menambahkan karakter melalui form dengan mengisi nama, memilih role, dan menentukan level karakter. Sistem melakukan pemeriksaan input sebelum karakter disimpan ke dalam daftar.
 
-## Wireframe Layout
+## 2. Fitur yang Dikembangkan
 
-```text
-+------------------------------------------------------+
-|                       NORTH                          |
-|                 Character Manager                    |
-|                    8 Karakter                        |
-|------------------------------------------------------|
-|                PANEL STATISTIK                       |
-|        WARRIOR       |       MAGE                    |
-|        ARCHER        |       HEALER                  |
-|------------------------------------------------------|
-|                              |                       |
-|           CENTER             |        EAST           |
-|                              |                       |
-|       Daftar Karakter        |     Legenda Role      |
-|                              |                       |
-|       [Character 1]          |     WARRIOR           |
-|       [Character 2]          |     MAGE              |
-|       [Character 3]          |     ARCHER            |
-|       [Character 4]          |     HEALER            |
-|                              |                       |
-|          JScrollPane         |                       |
-|                              |                       |
-|------------------------------------------------------|
-|                       SOUTH                          |
-|             Total Karakter          v0.5             |
-+------------------------------------------------------+
-```
+### 2.1 Form Input Karakter
+- JTextField untuk memasukkan nama karakter.
+- JComboBox untuk memilih jenis karakter.
+- JSpinner untuk menentukan level 1–99.
 
----
+### 2.2 Validasi Nama
+- Nama wajib diisi.
+- Panjang nama minimal 3 dan maksimal 20 karakter.
+- Nama hanya boleh menggunakan huruf dan spasi.
+- Tidak boleh menggunakan spasi berulang.
+- Nama tidak boleh duplikat.
 
-## Screenshot Output
+### 2.3 Validasi Model
+- Nama tidak boleh kosong.
+- Role wajib dipilih.
+- Level harus berada pada rentang 1–99.
+- Role MAGE memiliki batas maksimal level 60.
 
-### Output1 - Tampilan Awal
+### 2.4 Aturan Tambahan
+- Jumlah karakter maksimal 20.
+- Pesan kesalahan ditampilkan pada form.
+- Karakter yang berhasil ditambahkan langsung muncul pada daftar.
 
-![Output1](Screenshot/Output1tampilan%20awal.png)
+## 3. Screenshot Pengujian
 
-Tampilan awal aplikasi Character Manager setelah dijalankan.
+### A. Validasi Nama Kosong
 
-### Output2 - Tampilan Diperlebar
+![Validasi Nama Kosong](screenshot/TP14_Validasi_Nama_Kosong.png)
 
-![Output2](Screenshot/Output2tampilan%20diperlebar.png)
+### B. Validasi Nama Duplikat
 
-Tampilan aplikasi setelah ukuran jendela diperlebar.
+![Validasi Nama Duplikat](screenshot/TP14_Validasi_Nama_Duplikat.png)
 
-### Output3 - Tampilan Diperkecil
+### C. Berhasil Menambahkan Karakter
 
-![Output3](Screenshot/Output3tampilan%20diperkecil.png)
+![Berhasil Menambahkan Karakter](screenshot/TP14_Berhasil_Tambah_Karakter.png)
 
-Tampilan aplikasi setelah ukuran jendela diperkecil. Scrollbar digunakan untuk melihat daftar karakter yang tidak seluruhnya terlihat.
+## 4. Tabel Pengujian
 
----
+| No. | Input Pengujian | Hasil yang Diharapkan | Hasil Aktual | Lapisan |
+|---|---|---|---|---|
+| 1 | Nama kosong | Ditolak, muncul pesan Nama wajib diisi | Sesuai | View |
+| 2 | Nama arjuna | Ditolak karena nama sudah digunakan | Sesuai | View |
+| 3 | Srikandi, ARCHER, level 5 | Karakter berhasil ditambahkan | Sesuai | View dan Model |
+| 4 | Nama Ab | Ditolak karena panjang kurang dari 3 karakter | Sesuai | View |
+| 5 | Nama Arjuna123 | Ditolak karena mengandung angka | Sesuai | View |
+| 6 | Nama Bima  Sakti | Ditolak karena spasi berulang | Sesuai | View |
+| 7 | MAGE dengan level 61 | Ditolak karena MAGE maksimal level 60 | Sesuai | Model |
+| 8 | Menambahkan karakter ke-21 | Ditolak karena maksimal 20 karakter | Sesuai | Model |
 
-## Pengujian Resize Window
+**Catatan:** Hasil aktual pada tabel diisi berdasarkan pengujian aplikasi.
 
-Pengujian dilakukan dengan mengubah ukuran jendela aplikasi Character Manager untuk mengamati perubahan tampilan komponen pada ukuran awal, ukuran diperlebar, dan ukuran diperkecil.
+## 5. Catatan Implementasi
 
-| Pengujian | Prediksi | Hasil |
-|---|---|---|
-| Initial Window | Seluruh komponen utama ditampilkan sesuai ukuran awal jendela. | Header, panel statistik, daftar karakter, legenda role, dan status bar tampil. |
-| Widened Window | Area tampilan daftar karakter akan menjadi lebih luas ketika jendela diperlebar. | Jendela menjadi lebih lebar dan komponen menyesuaikan ruang yang tersedia. |
-| Shrunk Window | Area daftar karakter menjadi lebih terbatas sehingga scrollbar membantu melihat seluruh daftar. | Scrollbar muncul dan daftar karakter dapat digulir. |
+Pada pengembangan ini, ActionListener masih digunakan secara sederhana untuk menangani tombol simpan dan tombol Enter pada kolom nama. Selain itu, View masih memanggil manager.addCharacter() secara langsung untuk menambahkan karakter. Kedua hal tersebut merupakan kompromi sementara agar fitur dapat berjalan sesuai kebutuhan tugas. Pada pengembangan berikutnya, struktur komunikasi antarkomponen akan dirapikan agar pemisahan tanggung jawab MVC menjadi lebih baik.
 
----
+## 6. Analisis MVC
 
-## Nested Panels
+Analisis mengenai validasi input, pemisahan tanggung jawab View dan Model, penanganan kesalahan, serta penerapan komponen Swing dijelaskan lebih lengkap dalam dokumen Google Docs berikut.
 
-Aplikasi ini menggunakan nested panels atau panel bersarang untuk membagi tampilan menjadi beberapa bagian. Panel header menampung judul aplikasi dan informasi jumlah karakter, sedangkan panel statistik ditempatkan di bawah header. Panel daftar karakter menggunakan panel pembungkus sebelum dimasukkan ke dalam JScrollPane. Penggunaan panel bersarang membuat susunan komponen lebih teratur dan memudahkan pengelolaan tampilan.
+**Link Google Docs Analisis MVC:**
 
----
+https://docs.google.com/document/d/1-PDwmMjQHvT3_ENYoEpNprBPN90ALM0NPc4h3Ziwgw0/edit?usp=sharing
 
-## Mini-Challenge
+## 7. Kesimpulan
 
-### Panel yang Dipilih: GridLayout 2×2
-
-Mini-challenge yang dipilih adalah membuat panel statistik menggunakan GridLayout dengan susunan 2 baris dan 2 kolom.
-
-Panel tersebut menampilkan jumlah karakter berdasarkan empat jenis role, yaitu WARRIOR, MAGE, ARCHER, dan HEALER. Jumlah setiap role dihitung berdasarkan data karakter yang tersedia.
-
-### Layout yang Tidak Dipilih: FlowLayout
-
-FlowLayout tidak dipilih untuk panel statistik karena susunan komponennya mengikuti aliran horizontal dan dapat berpindah baris ketika ukuran ruang berubah. GridLayout lebih sesuai untuk menampilkan empat informasi statistik dalam susunan yang teratur dan memiliki ukuran sel yang sama.
-
----
-
-## Google Docs - Analisis MVC
-
-Dokumen analisis MVC dan Layout Manager TP12:
-
-https://docs.google.com/document/d/1DTuF3N8AM7Yyz8ZDqG2VHFs2-Px1X9NkOnPRo43J9kc/edit?usp=sharing
-
-
-## Versi Aplikasi
-
-**Character Manager - v0.5**
-
+Melalui TP14, aplikasi Character Manager telah dikembangkan dengan form input dan validasi yang lebih terstruktur. Penerapan validasi pada View dan Model membantu menjaga agar data karakter yang disimpan sesuai dengan aturan aplikasi. Pengembangan ini juga memberikan pemahaman mengenai pentingnya pemisahan tanggung jawab dalam konsep MVC.
