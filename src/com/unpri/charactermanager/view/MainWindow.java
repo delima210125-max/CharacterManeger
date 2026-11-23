@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,21 +17,28 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import com.unpri.charactermanager.model.Character;
+import com.unpri.charactermanager.model.CharacterManager;
 import com.unpri.charactermanager.model.CharacterType;
 
 public class MainWindow extends JFrame {
 
-    private ArrayList<Character> characterList;
+    private final CharacterManager manager;
 
-    public MainWindow(ArrayList<Character> characterList) {
+    private JPanel cardsPanel;
+    private JPanel statisticsPanel;
+
+    private JLabel countLabel;
+    private JLabel statusLabel;
+
+    public MainWindow(CharacterManager manager) {
         super("Character Manager " + AppTheme.APP_VERSION);
 
-        this.characterList = characterList;
+        this.manager = manager;
 
         initComponents();
 
         pack();
-        setMinimumSize(new Dimension(560, 380));
+        setMinimumSize(new Dimension(820, 420));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
@@ -42,9 +48,17 @@ public class MainWindow extends JFrame {
         setLayout(new BorderLayout());
 
         add(createHeaderPanel(), BorderLayout.NORTH);
+
+        add(
+            new CharacterFormPanel(manager, this::refreshList),
+            BorderLayout.WEST
+        );
+
         add(createListArea(), BorderLayout.CENTER);
         add(createLegendPanel(), BorderLayout.EAST);
         add(createStatusPanel(), BorderLayout.SOUTH);
+
+        refreshList();
     }
 
     // NORTH: Header dan Statistik
@@ -53,7 +67,7 @@ public class MainWindow extends JFrame {
 
         headerArea.setBackground(AppTheme.BG_MAIN);
         headerArea.setBorder(
-                BorderFactory.createEmptyBorder(16, 16, 8, 16)
+            BorderFactory.createEmptyBorder(16, 16, 8, 16)
         );
 
         JPanel header = new JPanel(new BorderLayout());
@@ -63,14 +77,14 @@ public class MainWindow extends JFrame {
         title.setFont(AppTheme.FONT_TITLE);
         title.setForeground(AppTheme.TEXT_MAIN);
 
-        JLabel count = new JLabel(
-                characterList.size() + " karakter"
+        countLabel = new JLabel(
+            manager.getTotalCharacters() + " karakter"
         );
-        count.setFont(AppTheme.FONT_BODY);
-        count.setForeground(AppTheme.GOLD);
+        countLabel.setFont(AppTheme.FONT_BODY);
+        countLabel.setForeground(AppTheme.GOLD);
 
         header.add(title, BorderLayout.WEST);
-        header.add(count, BorderLayout.EAST);
+        header.add(countLabel, BorderLayout.EAST);
 
         headerArea.add(header, BorderLayout.NORTH);
         headerArea.add(createStatisticsPanel(), BorderLayout.SOUTH);
@@ -78,26 +92,35 @@ public class MainWindow extends JFrame {
         return headerArea;
     }
 
-    // Panel Statistik: GridLayout 2 x 2
+    // Panel Statistik
     private JPanel createStatisticsPanel() {
-        JPanel statistics = new JPanel(
-                new GridLayout(2, 2, 8, 8)
+        statisticsPanel = new JPanel(
+            new GridLayout(2, 2, 8, 8)
         );
 
-        statistics.setBackground(AppTheme.BG_MAIN);
+        statisticsPanel.setBackground(AppTheme.BG_MAIN);
+
+        refreshStatistics();
+
+        return statisticsPanel;
+    }
+
+    // Memperbarui statistik role
+    private void refreshStatistics() {
+        statisticsPanel.removeAll();
 
         for (CharacterType type : CharacterType.values()) {
             int total = 0;
 
-            for (Character c : characterList) {
+            for (Character c : manager.getAllCharacters()) {
                 if (c.getType() == type) {
                     total++;
                 }
             }
 
             JLabel stat = new JLabel(
-                    type.name() + ": " + total,
-                    SwingConstants.CENTER
+                type.name() + ": " + total,
+                SwingConstants.CENTER
             );
 
             stat.setFont(AppTheme.FONT_BODY);
@@ -106,38 +129,35 @@ public class MainWindow extends JFrame {
             stat.setOpaque(true);
             stat.setBorder(AppTheme.CARD_BORDER);
 
-            statistics.add(stat);
+            statisticsPanel.add(stat);
         }
 
-        return statistics;
+        statisticsPanel.revalidate();
+        statisticsPanel.repaint();
     }
 
     // CENTER: Daftar karakter berscroll
     private JScrollPane createListArea() {
-        JPanel cards = new JPanel(
-                new GridLayout(0, 1, 0, 8)
+        cardsPanel = new JPanel(
+            new GridLayout(0, 1, 0, 8)
         );
 
-        cards.setBackground(AppTheme.BG_MAIN);
-
-        for (Character c : characterList) {
-            cards.add(createCharacterLabel(c));
-        }
+        cardsPanel.setBackground(AppTheme.BG_MAIN);
 
         JPanel holder = new JPanel(new BorderLayout());
 
         holder.setBackground(AppTheme.BG_MAIN);
         holder.setBorder(
-                BorderFactory.createEmptyBorder(8, 16, 8, 8)
+            BorderFactory.createEmptyBorder(8, 16, 8, 8)
         );
 
-        holder.add(cards, BorderLayout.NORTH);
+        holder.add(cardsPanel, BorderLayout.NORTH);
 
         JScrollPane scroll = new JScrollPane(holder);
 
         scroll.setBorder(null);
         scroll.getViewport().setBackground(AppTheme.BG_MAIN);
-        scroll.setPreferredSize(new Dimension(460, 280));
+        scroll.setPreferredSize(new Dimension(420, 280));
 
         return scroll;
     }
@@ -145,9 +165,9 @@ public class MainWindow extends JFrame {
     // Kartu karakter
     private JLabel createCharacterLabel(Character c) {
         String info = c.getName() + " | " + c.getType()
-                + " | Lv." + c.getLevel()
-                + " | HP:" + c.getHitPoints()
-                + " | ATK:" + c.getAttackPower();
+            + " | Lv." + c.getLevel()
+            + " | HP:" + c.getHitPoints()
+            + " | ATK:" + c.getAttackPower();
 
         JLabel lbl = new JLabel(info);
 
@@ -157,11 +177,34 @@ public class MainWindow extends JFrame {
         lbl.setOpaque(true);
         lbl.setBorder(AppTheme.CARD_BORDER);
         lbl.setToolTipText(AppTheme.describe(c.getType()));
+
         lbl.setCursor(
-                Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+            Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
         );
 
         return lbl;
+    }
+
+    // Memperbarui daftar karakter
+    private void refreshList() {
+        cardsPanel.removeAll();
+
+        for (Character c : manager.getAllCharacters()) {
+            cardsPanel.add(createCharacterLabel(c));
+        }
+
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+
+        int total = manager.getTotalCharacters();
+
+        countLabel.setText(total + " karakter");
+
+        statusLabel.setText(
+            "Total: " + total + " karakter  |  Siap"
+        );
+
+        refreshStatistics();
     }
 
     // EAST: Legenda role
@@ -169,19 +212,20 @@ public class MainWindow extends JFrame {
         JPanel legend = new JPanel();
 
         legend.setLayout(
-                new BoxLayout(legend, BoxLayout.Y_AXIS)
+            new BoxLayout(legend, BoxLayout.Y_AXIS)
         );
 
         legend.setBackground(AppTheme.BG_MAIN);
         legend.setBorder(
-                BorderFactory.createEmptyBorder(8, 8, 8, 16)
+            BorderFactory.createEmptyBorder(8, 8, 8, 16)
         );
 
         JLabel head = new JLabel("Legenda Role");
 
         head.setFont(
-                AppTheme.FONT_BODY.deriveFont(java.awt.Font.BOLD)
+            AppTheme.FONT_BODY.deriveFont(java.awt.Font.BOLD)
         );
+
         head.setForeground(AppTheme.TEXT_MAIN);
         head.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -196,8 +240,8 @@ public class MainWindow extends JFrame {
             chip.setForeground(AppTheme.TEXT_LIGHT);
             chip.setFont(AppTheme.FONT_MONO);
             chip.setBorder(AppTheme.CARD_BORDER);
-            chip.setToolTipText(AppTheme.describe(type));
             chip.setAlignmentX(Component.LEFT_ALIGNMENT);
+            chip.setToolTipText(AppTheme.describe(type));
 
             legend.add(chip);
             legend.add(Box.createVerticalStrut(6));
@@ -214,22 +258,22 @@ public class MainWindow extends JFrame {
 
         status.setBackground(AppTheme.BG_STATUS);
         status.setBorder(
-                BorderFactory.createEmptyBorder(6, 16, 6, 16)
+            BorderFactory.createEmptyBorder(6, 16, 6, 16)
         );
 
-        JLabel lbl = new JLabel(
-                "Total: " + characterList.size()
-                + " karakter  |  Siap"
+        statusLabel = new JLabel(
+            "Total: " + manager.getTotalCharacters()
+            + " karakter  |  Siap"
         );
 
-        lbl.setFont(AppTheme.FONT_MONO);
-        lbl.setForeground(AppTheme.TEXT_MUTED);
+        statusLabel.setFont(AppTheme.FONT_MONO);
+        statusLabel.setForeground(AppTheme.TEXT_MUTED);
 
         JLabel version = new JLabel(AppTheme.APP_VERSION);
         version.setFont(AppTheme.FONT_MONO);
         version.setForeground(AppTheme.TEXT_MUTED);
 
-        status.add(lbl, BorderLayout.WEST);
+        status.add(statusLabel, BorderLayout.WEST);
         status.add(version, BorderLayout.EAST);
 
         return status;
