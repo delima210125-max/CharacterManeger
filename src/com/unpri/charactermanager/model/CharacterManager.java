@@ -14,6 +14,9 @@ public class CharacterManager {
 
     private ArrayList<Character> characterList;
 
+    // TP14: batas maksimal karakter
+    private static final int MAX_CHARACTERS = 20;
+
     // ===== CONSTRUCTOR =====
     public CharacterManager() {
         this.characterList = new ArrayList<>();
@@ -21,10 +24,25 @@ public class CharacterManager {
 
     // ===== TAMBAH KARAKTER =====
     public boolean addCharacter(Character character) {
-        if (findByName(character.getName()) != null) {
+
+        if (character == null) {
+            throw new IllegalArgumentException(
+                "Karakter tidak boleh kosong"
+            );
+        }
+
+        if (isNameTaken(character.getName())) {
             System.out.println(
                 "Gagal: karakter dengan nama '" +
                 character.getName() + "' sudah ada!"
+            );
+            return false;
+        }
+
+        // TP14: validasi maksimal 20 karakter
+        if (characterList.size() >= MAX_CHARACTERS) {
+            System.out.println(
+                "Gagal: jumlah karakter maksimal 20!"
             );
             return false;
         }
@@ -41,13 +59,38 @@ public class CharacterManager {
 
     // ===== CARI KARAKTER =====
     public Character findByName(String name) {
+
+        if (name == null) {
+            return null;
+        }
+
         for (Character c : characterList) {
-            if (c.getName().equals(name)) {
+            if (c.getName().equalsIgnoreCase(name)) {
                 return c;
             }
         }
 
         return null;
+    }
+
+    // ===== CEK NAMA KARAKTER =====
+    /**
+     * Mengembalikan true jika sudah ada karakter
+     * bernama sama tanpa membedakan huruf besar/kecil.
+     */
+    public boolean isNameTaken(String name) {
+
+        if (name == null) {
+            return false;
+        }
+
+        for (Character c : characterList) {
+            if (c.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // ===== HAPUS KARAKTER =====

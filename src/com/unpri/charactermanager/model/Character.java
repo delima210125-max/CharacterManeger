@@ -7,7 +7,7 @@ package com.unpri.charactermanager.model;
  */
 public class Character {
 
-    // ===== ATRIBUT PRIVATE =====
+    // Atribut private
     private static int totalCharacterCreated = 0;
 
     private int id;
@@ -18,15 +18,14 @@ public class Character {
     private int attackPower;
     private int mana;
 
-    // ===== CONSTRUCTOR 1 =====
+    // Constructor 1
     public Character(String name, CharacterType type, int level) {
-        if (level < 1) {
-            throw new IllegalArgumentException(
-                "Level minimal adalah 1"
-            );
-        }
 
-        this.name = name;
+        validateName(name);
+        validateType(type);
+        validateLevel(type, level);
+
+        this.name = name.trim();
         this.type = type;
         this.level = level;
         this.hitPoints = calculateBaseHP();
@@ -36,11 +35,21 @@ public class Character {
         totalCharacterCreated++;
     }
 
-    // ===== CONSTRUCTOR 2 =====
-    public Character(int id, String name, CharacterType type,
-                     int level, int hitPoints, int attackPower) {
+    // Constructor 2
+    public Character(
+            int id,
+            String name,
+            CharacterType type,
+            int level,
+            int hitPoints,
+            int attackPower
+    ) {
+        validateName(name);
+        validateType(type);
+        validateLevel(type, level);
+
         this.id = id;
-        this.name = name;
+        this.name = name.trim();
         this.type = type;
         this.level = level;
         this.hitPoints = hitPoints;
@@ -50,7 +59,43 @@ public class Character {
         totalCharacterCreated++;
     }
 
-    // ===== HELPER PRIVATE =====
+    // Validasi nama
+    private static void validateName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(
+                "Nama tidak boleh kosong"
+            );
+        }
+    }
+
+    // Validasi role
+    private static void validateType(CharacterType type) {
+        if (type == null) {
+            throw new IllegalArgumentException(
+                "Role wajib dipilih"
+            );
+        }
+    }
+
+    // Validasi level
+    private static void validateLevel(
+            CharacterType type,
+            int level
+    ) {
+        if (level < 1 || level > 99) {
+            throw new IllegalArgumentException(
+                "Level harus 1-99"
+            );
+        }
+
+        if (type == CharacterType.MAGE && level > 60) {
+            throw new IllegalArgumentException(
+                "MAGE maksimal level 60"
+            );
+        }
+    }
+
+    // Helper private
     private int calculateBaseHP() {
         return 100 + (level * 10);
     }
@@ -59,7 +104,7 @@ public class Character {
         return 10 + (level * 5);
     }
 
-    // ===== GETTER =====
+    // Getter
     public int getId() {
         return id;
     }
@@ -88,30 +133,30 @@ public class Character {
         return mana;
     }
 
-    // ===== GETTER STATIC =====
+    // Getter static
     public static int getTotalCharacterCreated() {
         return totalCharacterCreated;
     }
 
-    // ===== SETTER =====
+    // Setter
     public void setId(int id) {
         this.id = id;
     }
 
     public void setName(String name) {
-        this.name = name;
+        validateName(name);
+        this.name = name.trim();
     }
 
     public void setType(CharacterType type) {
+        validateType(type);
+        validateLevel(type, this.level);
+
         this.type = type;
     }
 
     public void setLevel(int level) {
-        if (level < 1) {
-            throw new IllegalArgumentException(
-                "Level minimal adalah 1"
-            );
-        }
+        validateLevel(this.type, level);
 
         this.level = level;
         this.hitPoints = calculateBaseHP();
@@ -136,12 +181,12 @@ public class Character {
         this.mana = mana;
     }
 
-    // ===== METHOD IS ALIVE =====
+    // Method isAlive
     public boolean isAlive() {
         return hitPoints > 0;
     }
 
-    // ===== TOSTRING =====
+    // toString
     @Override
     public String toString() {
         return "Character{id=" + id +
@@ -153,14 +198,19 @@ public class Character {
                ", mana=" + mana + '}';
     }
 
-    // ===== EQUALS: MEMBANDINGKAN ISI DATA =====
-    // Dua Character dianggap sama jika namanya identik.
+    // equals
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Character)) return false;
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Character)) {
+            return false;
+        }
 
         Character other = (Character) obj;
-        return this.name.equals(other.name);
+
+        return this.name.equalsIgnoreCase(other.name);
     }
 }
