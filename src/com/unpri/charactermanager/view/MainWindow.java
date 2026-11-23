@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import com.unpri.charactermanager.model.Character;
 import com.unpri.charactermanager.model.CharacterType;
@@ -46,14 +47,17 @@ public class MainWindow extends JFrame {
         add(createStatusPanel(), BorderLayout.SOUTH);
     }
 
-    // NORTH: Header
+    // NORTH: Header dan Statistik
     private JPanel createHeaderPanel() {
-        JPanel header = new JPanel(new BorderLayout());
+        JPanel headerArea = new JPanel(new BorderLayout(0, 8));
 
-        header.setBackground(AppTheme.BG_MAIN);
-        header.setBorder(
+        headerArea.setBackground(AppTheme.BG_MAIN);
+        headerArea.setBorder(
                 BorderFactory.createEmptyBorder(16, 16, 8, 16)
         );
+
+        JPanel header = new JPanel(new BorderLayout());
+        header.setBackground(AppTheme.BG_MAIN);
 
         JLabel title = new JLabel("Character Manager");
         title.setFont(AppTheme.FONT_TITLE);
@@ -68,7 +72,44 @@ public class MainWindow extends JFrame {
         header.add(title, BorderLayout.WEST);
         header.add(count, BorderLayout.EAST);
 
-        return header;
+        headerArea.add(header, BorderLayout.NORTH);
+        headerArea.add(createStatisticsPanel(), BorderLayout.SOUTH);
+
+        return headerArea;
+    }
+
+    // Panel Statistik: GridLayout 2 x 2
+    private JPanel createStatisticsPanel() {
+        JPanel statistics = new JPanel(
+                new GridLayout(2, 2, 8, 8)
+        );
+
+        statistics.setBackground(AppTheme.BG_MAIN);
+
+        for (CharacterType type : CharacterType.values()) {
+            int total = 0;
+
+            for (Character c : characterList) {
+                if (c.getType() == type) {
+                    total++;
+                }
+            }
+
+            JLabel stat = new JLabel(
+                    type.name() + ": " + total,
+                    SwingConstants.CENTER
+            );
+
+            stat.setFont(AppTheme.FONT_BODY);
+            stat.setForeground(AppTheme.TEXT_LIGHT);
+            stat.setBackground(AppTheme.colorFor(type));
+            stat.setOpaque(true);
+            stat.setBorder(AppTheme.CARD_BORDER);
+
+            statistics.add(stat);
+        }
+
+        return statistics;
     }
 
     // CENTER: Daftar karakter berscroll
